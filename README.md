@@ -12,7 +12,7 @@ Aplicativo **desktop Java Swing** que autentica e consome a [**Enterprise API**]
 - **OkHttp** (HTTP client)
 - **Jackson** (JSON)
 - **Maven** (build/empacotamento)
-- **Phoenix Enterprise API** (backend) com **PostgreSQL** (via API)
+- **Enterprise API** (backend) com **PostgreSQL** (via API)
 
 ---
 
