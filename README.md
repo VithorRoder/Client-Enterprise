@@ -3,7 +3,7 @@
 Cliente desktop em Java Swing que autentica e consome a API (`api-enterprise`).
 
 ## Rodar
-- Ajuste a URL da API em `AppConfig.java` (por padrão `http://localhost:8080`).
+- Ajuste a URL da API em `AppConfigGithub.java` (por padrão `http://localhost:8081`).
 - Rode pelo NetBeans/IDE ou:
   ```bash
   mvn -q -DskipTests package
