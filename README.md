@@ -29,7 +29,7 @@ Aplicativo **desktop Java Swing** que autentica e consome a **Phoenix Enterprise
 
 - **Java 21+** instalado (`java -version`)
 - **Maven 3.9+** (`mvn -v`)
-- **API** rodando (https://github.com/VithorRoder/API-Enterprise) (por padrão em `http://localhost:8081`)
+- **API** rodando (por padrão em `http://localhost:8081`)
   > A API fala com o PostgreSQL; o Swing **não acessa DB diretamente**.
 
 ---
