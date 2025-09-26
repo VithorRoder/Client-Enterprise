@@ -1,7 +1,7 @@
 [README.md](https://github.com/user-attachments/files/22566771/README.md)
 # Client Swing Enterprise
 
-Aplicativo **desktop Java Swing** que autentica e consome a **Enterprise API** (Spring Boot 3) — a API, por sua vez, persiste dados em **PostgreSQL** via JPA/Hibernate e controla acesso com **JWT**.
+Aplicativo **desktop Java Swing** que autentica e consome a [**Enterprise API**](https://github.com/VithorRoder/API-Enterprise) (Spring Boot 3) — a API, por sua vez, persiste dados em **PostgreSQL** via JPA/Hibernate e controla acesso com **JWT**.
 
 ---
 
