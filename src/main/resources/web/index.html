@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phoenix Client Web</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-slate-100 text-slate-900">
+<div class="max-w-5xl mx-auto py-10 px-4">
+    <header class="mb-10 text-center">
+        <h1 class="text-3xl font-bold text-sky-600">Phoenix Client Web</h1>
+        <p class="text-slate-500">Interface web moderna para consumir a Enterprise API</p>
+    </header>
+
+    <div id="alert" class="hidden mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600"></div>
+
+    <section id="login-view" class="mx-auto max-w-md rounded-2xl bg-white p-8 shadow-lg">
+        <h2 class="mb-6 text-xl font-semibold text-slate-700">Entrar</h2>
+        <form id="login-form" class="space-y-4">
+            <div>
+                <label for="username" class="block text-sm font-medium text-slate-600">Usuário</label>
+                <input id="username" name="username" type="text" autocomplete="username"
+                       class="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-slate-800 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                       value="admin" required>
+            </div>
+            <div>
+                <label for="password" class="block text-sm font-medium text-slate-600">Senha</label>
+                <input id="password" name="password" type="password" autocomplete="current-password"
+                       class="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-slate-800 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                       value="admin123" required>
+            </div>
+            <button type="submit"
+                    class="w-full rounded-lg bg-sky-600 px-4 py-2 font-semibold text-white shadow-md transition hover:bg-sky-700">
+                Entrar
+            </button>
+        </form>
+    </section>
+
+    <section id="app-view" class="hidden space-y-8">
+        <div class="flex flex-wrap items-center justify-between gap-4 rounded-2xl bg-white p-6 shadow-lg">
+            <div>
+                <h2 class="text-2xl font-semibold text-slate-700">Clientes</h2>
+                <p class="text-sm text-slate-500">Gerencie os clientes cadastrados na Enterprise API</p>
+            </div>
+            <div class="flex gap-3">
+                <button id="refresh-btn" class="rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition hover:border-sky-400 hover:text-sky-600">
+                    Atualizar
+                </button>
+                <button id="logout-btn" class="rounded-lg bg-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-300">
+                    Sair
+                </button>
+            </div>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-[1fr,2fr]">
+            <div class="rounded-2xl bg-white p-6 shadow-lg">
+                <h3 class="mb-4 text-lg font-semibold text-slate-700" id="form-title">Novo cliente</h3>
+                <form id="customer-form" class="space-y-4">
+                    <input type="hidden" id="customer-id">
+                    <div>
+                        <label for="customer-name" class="block text-sm font-medium text-slate-600">Nome</label>
+                        <input id="customer-name" type="text"
+                               class="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-slate-800 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                               required>
+                    </div>
+                    <div>
+                        <label for="customer-email" class="block text-sm font-medium text-slate-600">E-mail</label>
+                        <input id="customer-email" type="email"
+                               class="mt-1 w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-slate-800 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                               required>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <button type="submit"
+                                class="rounded-lg bg-sky-600 px-4 py-2 font-semibold text-white shadow-md transition hover:bg-sky-700">
+                            Salvar
+                        </button>
+                        <button type="button" id="cancel-edit"
+                                class="hidden rounded-lg border border-slate-200 px-4 py-2 text-sm font-medium text-slate-600 transition hover:border-sky-400 hover:text-sky-600">
+                            Cancelar edição
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="overflow-hidden rounded-2xl bg-white shadow-lg">
+                <table class="min-w-full divide-y divide-slate-200 text-left text-sm">
+                    <thead class="bg-slate-50 text-slate-600">
+                    <tr>
+                        <th class="px-4 py-3 font-medium">ID</th>
+                        <th class="px-4 py-3 font-medium">Nome</th>
+                        <th class="px-4 py-3 font-medium">E-mail</th>
+                        <th class="px-4 py-3 font-medium text-center">Ações</th>
+                    </tr>
+                    </thead>
+                    <tbody id="customer-table" class="divide-y divide-slate-100 text-slate-700">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script src="/app.js" defer></script>
+</body>
+</html>

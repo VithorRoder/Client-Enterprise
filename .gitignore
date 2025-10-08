@@ -1,1 +1,8 @@
-/src/main/java/br/com/phoenix/client/config/AppConfig.java
+target/
+*.log
+*.rar
+*.zip
+*.iml
+.idea/
+*.class
+.DS_Store

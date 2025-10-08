@@ -1,27 +1,28 @@
-[README.md](https://github.com/user-attachments/files/22566771/README.md)
-# Client Swing Enterprise
+# Client Web Enterprise
 
-Aplicativo **desktop Java Swing** que autentica e consome a [**Enterprise API**](https://github.com/VithorRoder/API-Enterprise) (Spring Boot 3) — a API, por sua vez, persiste dados em **PostgreSQL** via JPA/Hibernate e controla acesso com **JWT**.
+Aplicação **web** com servidor HTTP embutido em Java que disponibiliza uma interface moderna em **HTML + Tailwind CSS**
+para consumir a [**Enterprise API**](https://github.com/VithorRoder/API-Enterprise). A aplicação continua utilizando
+OkHttp e Jackson para se autenticar na API e realizar o CRUD de clientes, mas agora entrega a experiência diretamente
+no navegador.
 
 ---
 
 ## 🧩 Stack
 
-- **Java 21**
-- **Swing** + FlatLaf (tema moderno)
-- **OkHttp** (HTTP client)
-- **Jackson** (JSON)
-- **Maven** (build/empacotamento)
-- **Enterprise API** (backend) com **PostgreSQL** (via API)
+- **Java 21** (servidor HTTP leve utilizando `com.sun.net.httpserver`)
+- **HTML + Tailwind CSS (via CDN)** para o layout responsivo
+- **JavaScript moderno (ES6)** para consumir os endpoints locais
+- **OkHttp** (HTTP client) + **Jackson** (JSON) para conversar com a Enterprise API
+- **Maven** para build/empacotamento (gera JAR com servidor + front-end estático)
 
 ---
 
 ## ✨ Funcionalidades
 
-- Login com **usuário/senha** → recebe **JWT** da API
-- CRUD de **Customers** (nome/e-mail) via endpoints protegidos
-- Armazena/tokeniza requisições automaticamente (Bearer)
-- JAR único “**jar-with-dependencies**” para execução direta
+- Login com usuário/senha (`POST /api/login` da Enterprise API) e obtenção de **JWT**
+- CRUD de **Customers** (nome/e-mail) protegido por bearer token
+- Interface web responsiva com componentes estilizados via Tailwind
+- Build gera um único JAR: ao executar, um servidor HTTP local (porta padrão `8080`) entrega o front-end
 
 ---
 
@@ -29,36 +30,21 @@ Aplicativo **desktop Java Swing** que autentica e consome a [**Enterprise API**]
 
 - **Java 21+** instalado (`java -version`)
 - **Maven 3.9+** (`mvn -v`)
-- **API** rodando (por padrão em `http://localhost:8081`)
-  > A API fala com o PostgreSQL; o Swing **não acessa DB diretamente**.
+- **Enterprise API** rodando (padrão `http://localhost:8081`)
+
+> A aplicação web continua consumindo a API REST — ela não acessa o banco de dados diretamente.
 
 ---
 
 ## ⚙️ Configuração da URL da API
 
-### Opção A — Classe genérica (pública no GitHub)
-No arquivo `br/com/phoenix/client/config/AppConfigGithub.java`:
+A URL base da API pode ser ajustada via variável de ambiente:
 
-```java
-public class AppConfigGithub {
-    // Usar localhost no GitHub para não expor IP da VPN/servidor
-    public static final String API_BASE_URL_GITHUB = "http://localhost:8081";
-}
+```bash
+export API_BASE_URL="http://SEU_HOST:8081"
 ```
 
-### Opção B — Variável de ambiente (mais profissional)
-```java
-public final class AppConfig {
-    public static final String API_BASE_URL =
-        System.getenv().getOrDefault("API_BASE_URL", "http://localhost:8081");
-    private AppConfig() {}
-}
-```
-
-No Windows (PowerShell):
-```powershell
-setx API_BASE_URL "http://SEU_IP_OU_DOMINIO:8081"
-```
+Por padrão (`API_BASE_URL` não definida) será utilizado `http://localhost:8081`.
 
 ---
 
@@ -66,94 +52,66 @@ setx API_BASE_URL "http://SEU_IP_OU_DOMINIO:8081"
 
 ```bash
 mvn clean package
-java -jar target/client-swing-enterprise-1.0.0-jar-with-dependencies.jar
+java -jar target/client-web-enterprise-2.0.0-jar-with-dependencies.jar
+```
+
+Depois acesse <http://localhost:8080> no navegador. As credenciais padrão da API são `admin` / `admin123`.
+
+Para alterar a porta HTTP do cliente web utilize a variável `APP_PORT`:
+
+```bash
+APP_PORT=9090 java -jar target/client-web-enterprise-2.0.0-jar-with-dependencies.jar
 ```
 
 ---
 
 ## 🔐 Fluxo de Autenticação
 
-1. Usuário preenche **login** e **senha**  
-2. Cliente chama `POST /api/auth/login`  
-3. API retorna **JWT**  
-4. Cliente armazena e envia `Authorization: Bearer <token>` nas próximas chamadas
+1. O usuário informa login e senha na tela web
+2. O cliente envia `POST /api/login` para a API Enterprise
+3. A API responde com o **JWT**
+4. O token é armazenado no navegador e enviado nas próximas requisições (`Authorization: Bearer <token>`)
 
 ---
 
-## 🌐 Executando pela rede (ex.: Radmin VPN)
-
-- Deixe a **API** bindando externamente (`server.address=0.0.0.0`)
-- Porta 8081 liberada no firewall
-- No **Swing**, aponte `API_BASE_URL` para o **IP da VPN** do servidor (ex.: `http://26.xxx.xxx.xxx:8081`)
-
----
-
-## 🧪 Teste de Integração (manual)
-
-```powershell
-Invoke-RestMethod -Method Post -Uri "http://localhost:8081/api/auth/login" `
-  -ContentType "application/json" `
-  -Body '{"username":"admin","password":"admin123"}'
-```
-
----
-
-## 🛠️ Build do JAR executável
+## 🧪 Teste rápido da API
 
 ```bash
-mvn clean package
-java -jar target/client-swing-enterprise-1.0.0-jar-with-dependencies.jar
+curl -X POST http://localhost:8081/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"admin","password":"admin123"}'
 ```
 
 ---
 
-## 🧹 Organização e Git
-
-**Inclua**:
-- `pom.xml`, `src/`, `README.md`, `.gitignore`
-- `AppConfigGithub.java` (com `localhost`)
-
-**Exclua** (`.gitignore`):
-```
-target/
-*.log
-*.rar
-*.zip
-*.iml
-*.idea/
-*.class
-.DS_Store
-src/main/java/br/com/phoenix/client/config/AppConfig.java
-.env
-```
-
----
-
-## 🧩 Estrutura (sugestão)
+## 🧹 Estrutura do projeto
 
 ```
-client-swing-enterprise/
+client-web-enterprise/
  ├─ src/main/java/br/com/phoenix/client
- │   ├─ config/         # AppConfigGithub / AppConfig (não versionado)
- │   ├─ net/            # ApiHttpClient (OkHttp + bearer)
- │   ├─ service/        # AuthService, CustomerService
- │   └─ ui/             # LoginFrame, MainFrame, etc.
- ├─ src/main/resources/
+ │   ├─ config/         # Configuração da URL da API
+ │   ├─ model/          # DTOs simples
+ │   ├─ net/            # Cliente HTTP (OkHttp + bearer token)
+ │   ├─ service/        # Serviços que consomem a API Enterprise
+ │   └─ Main.java       # Servidor HTTP + roteamento/rest proxy
+ ├─ src/main/resources/web/
+ │   ├─ index.html      # UI em HTML + Tailwind
+ │   └─ app.js          # Lógica de front-end (login + CRUD)
  ├─ pom.xml
  └─ README.md
 ```
 
 ---
 
-## 🛡️ Segurança
+## 🛡️ Boas práticas
 
-- **Nunca** suba IPs/segredos da sua infraestrutura pública
-- Prefira **variáveis de ambiente**
-- Para produção: use **HTTPS**, **proxy reverso** e **rate limit**
+- Configure a API com HTTPS em ambientes de produção
+- Utilize variáveis de ambiente para segredos/URLs
+- Considere adicionar autenticação de sessão/cookies se for expor o cliente na internet
 
 ---
 
-## 🧑‍💻 Autor
+## 🧑‍💻 Autor original
 
-**Vithor Roder** — Full Stack (Java / Spring / Desktop)  
+**Vithor Roder** — Full Stack (Java / Spring / Desktop)
 Rio de Janeiro — BR

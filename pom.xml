@@ -6,10 +6,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>br.com.phoenix</groupId>
-    <artifactId>client-swing-enterprise</artifactId>
-    <version>1.0.0</version>
-    <name>client-swing-enterprise</name>
-    <description>Cliente Swing para consumir a API Phoenix Enterprise</description>
+    <artifactId>client-web-enterprise</artifactId>
+    <version>2.0.0</version>
+    <name>client-web-enterprise</name>
+    <description>Cliente Web em HTML/CSS/JS para consumir a API Phoenix Enterprise</description>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -32,12 +32,6 @@
             <version>2.17.2</version>
         </dependency>
 
-        <!-- Look and Feel (FlatLaf) -->
-        <dependency>
-            <groupId>com.formdev</groupId>
-            <artifactId>flatlaf</artifactId>
-            <version>3.4.1</version>
-        </dependency>
     </dependencies>
 
     <build>
@@ -61,7 +55,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <!-- Classe principal do Swing -->
+                            <!-- Classe principal do servidor HTTP embutido -->
                             <mainClass>br.com.phoenix.client.Main</mainClass>
                         </manifest>
                     </archive>
